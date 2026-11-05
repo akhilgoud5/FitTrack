@@ -30,6 +30,11 @@ def register(
     db: Session = Depends(get_db)
 ):
     username = data.username.strip()
+    if not username:
+       raise HTTPException(
+    status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        detail="Username cannot be empty"
+    )
     email = str(data.email).strip().lower()
 
     existing = db.query(User).filter(

@@ -15,7 +15,10 @@ from app.routers import (
     reports,
     notifications
 )
-
+from app.routers import workout_plans
+from app.routers import exercises
+from app.routers import dashboard
+from app.routers import badges
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -51,7 +54,10 @@ app.include_router(progress.router)
 app.include_router(goals.router)
 app.include_router(reports.router)
 app.include_router(notifications.router)
-
+app.include_router(workout_plans.router)
+app.include_router(exercises.router)
+app.include_router(dashboard.router)
+app.include_router(badges.router)
 
 # ROOT ENDPOINT
 @app.get("/")

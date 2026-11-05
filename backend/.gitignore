@@ -6,3 +6,5 @@ fittrack.db
 .pytest_cache/
 .coverage
 htmlcov/
+*.log
+.DS_Store

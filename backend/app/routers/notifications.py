@@ -1,13 +1,11 @@
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import Notification, User
 from app.dependencies import get_current_user
 from app.schemas import NotificationOut
-from fastapi import Query
-from fastapi import APIRouter, Depends, HTTPException, Query
 
 router = APIRouter(
     prefix="/notifications",
@@ -16,7 +14,11 @@ router = APIRouter(
 
 
 # 1. CREATE NOTIFICATION
-@router.post("/", response_model=NotificationOut, status_code=201)
+@router.post(
+    "/",
+    response_model=NotificationOut,
+    status_code=status.HTTP_201_CREATED
+)
 def create_notification(
     
     message: str = Query(..., min_length=1, max_length=255),

@@ -1,6 +1,5 @@
-from datetime import datetime
+from datetime import date, datetime
 from pydantic import BaseModel, EmailStr, Field, ConfigDict
-from datetime import date
 from typing import Literal
 
 
@@ -11,7 +10,7 @@ class RegisterIn(BaseModel):
 
 class LoginIn(BaseModel):
     email: EmailStr
-    password: str
+    password: str = Field(min_length=1, max_length=128)
 
 class UserOut(BaseModel):
     id: int
@@ -108,5 +107,84 @@ class NotificationOut(BaseModel):
     message: str
     is_read: bool
     created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+# 7. WORKOUT PLAN SCHEMAS
+
+class WorkoutPlanCreate(BaseModel):
+
+    title: str = Field(min_length=2, max_length=150)
+
+    description: str | None = Field(
+        default=None,
+        max_length=500
+    )
+
+    scheduled_date: date
+
+
+class WorkoutPlanUpdate(BaseModel):
+
+    title: str = Field(min_length=2, max_length=150)
+
+    description: str | None = Field(
+        default=None,
+        max_length=500
+    )
+
+    scheduled_date: date
+
+
+class WorkoutPlanOut(BaseModel):
+
+    id: int
+    user_id: int
+    title: str
+    description: str | None = None
+    scheduled_date: date
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)   
+
+
+# 8. EXERCISE SCHEMAS
+
+class ExerciseCreate(BaseModel):
+
+    name: str = Field(
+        min_length=2,
+        max_length=150
+    )
+
+    category: Literal["Cardio", "Strength", "Yoga"]
+
+    description: str | None = Field(
+        default=None,
+        max_length=500
+    )
+
+    duration: int = Field(
+        gt=0,
+        le=1440
+    )
+
+
+class ExerciseOut(BaseModel):
+
+    id: int
+    name: str
+    category: str
+    description: str | None = None
+    duration: int
+
+    model_config = ConfigDict(from_attributes=True)
+
+class BadgeOut(BaseModel):
+    id: int
+    user_id: int
+    badge_name: str
+    description: str
+    earned_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
