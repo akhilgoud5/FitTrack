@@ -380,3 +380,33 @@ def personalized_dashboard(
         "goals": goals_data,
         "achievement_badges": badges_data
     }
+
+# 9. DAILY WORKOUT ANALYTICS
+
+@router.get("/daily")
+def daily_analytics(
+    target_date: date = Query(default=None),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    selected_date = target_date or date.today()
+
+    result = db.query(
+        func.count(Workout.id).label("total_workouts"),
+        func.coalesce(
+            func.sum(Workout.calories_burned), 0
+        ).label("total_calories"),
+        func.coalesce(
+            func.sum(Workout.duration), 0
+        ).label("total_duration")
+    ).filter(
+        Workout.user_id == current_user.id,
+        Workout.workout_date == selected_date
+    ).first()
+
+    return {
+        "date": str(selected_date),
+        "total_workouts": result.total_workouts,
+        "total_calories": result.total_calories,
+        "total_duration": result.total_duration
+    }

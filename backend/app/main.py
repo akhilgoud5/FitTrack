@@ -7,18 +7,20 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database import Base, engine
 from app import models
 
-from app.routers import (
-    auth,
-    workouts,
-    progress,
-    goals,
-    reports,
-    notifications
-)
+from app.routers import (auth, workouts,progress,goals,reports,notifications)
 from app.routers import workout_plans
 from app.routers import exercises
 from app.routers import dashboard
 from app.routers import badges
+from app.routers import meals
+from app.routers import water
+from app.routers import recommendations
+from app.routers import workout_sessions
+from app.routers import integrations
+from app.routers import exports
+from app.routers import analytics
+from app.routers import reminders
+from app.routers import challenges
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -58,6 +60,15 @@ app.include_router(workout_plans.router)
 app.include_router(exercises.router)
 app.include_router(dashboard.router)
 app.include_router(badges.router)
+app.include_router(meals.router)
+app.include_router(water.router)
+app.include_router(recommendations.router)
+app.include_router(workout_sessions.router)
+app.include_router(integrations.router)
+app.include_router(exports.router)
+app.include_router(analytics.router)
+app.include_router(reminders.router)
+app.include_router(challenges.router)
 
 # ROOT ENDPOINT
 @app.get("/")

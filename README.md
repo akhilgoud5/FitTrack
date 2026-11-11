@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-FitTrack is a fitness and workout management platform developed using Python and FastAPI. It allows users to manage workouts, track daily fitness progress, set fitness goals, view reports and analytics, and receive notifications.
+FitTrack is a fitness and workout management platform developed using Python and FastAPI. It allows users to manage workouts, track daily fitness progress, set fitness goals, monitor nutrition and water intake, receive workout recommendations, and view fitness analytics.
 
 This project focuses on backend development, REST API design, authentication, database management, and user data security.
 
@@ -20,55 +20,108 @@ This project focuses on backend development, REST API design, authentication, da
 
 ## Implemented Modules
 
-### Module 1 – Authentication and User Management
-- User registration
-- User login
+### Phase 1 – Core Fitness Tracking
+
+**Module 1 – Authentication and User Management**
+- User registration and login
 - Password hashing using bcrypt
 - JWT token generation
 - Protected user profile endpoint
 
-### Module 2 – Workout Management
-- Create workouts
-- View workouts
-- Update workouts
-- Delete workouts
+**Module 2 – Workout Management**
+- Create, view, update and delete workouts
 - Search and filter workouts
 
-### Module 3 – Daily Progress Tracking
+**Module 3 – Daily Progress Tracking**
 - Track daily workouts
 - Calculate total calories burned
-- View daily progress
-- Maintain progress history
+- View daily progress and history
 
-### Module 4 – Fitness Goals
-- Create fitness goals
-- View goals
-- Update goals
-- Delete goals
+**Module 4 – Fitness Goals**
+- Create, view, update and delete fitness goals
 - Track target and current values
 
-### Module 5 – Reports and Analytics
+**Module 5 – Reports and Analytics**
 - Fitness summary
 - Category-wise workout reports
-- Weekly reports
-- Monthly reports
+- Weekly and monthly reports
 - Workout streak tracking
 - Dashboard analytics
 
-### Module 6 – Notifications
-- Create notifications
-- View all notifications
+**Module 6 – Notifications**
+- Create and view notifications
 - View unread notifications
 - Mark notifications as read
 - Delete notifications
+
+### Phase 2 – Advanced Tracking and User Engagement
+
+**Module 7 – Workout Plans and Scheduling**
+- Create workout plans
+- Schedule workouts
+- View scheduled workout plans
+
+**Module 8 – Exercise Library**
+- Manage exercise information
+- Categorize exercises
+- View exercise descriptions and durations
+
+**Module 9 – Progress Comparison**
+- Compare fitness progress and workout performance
+
+### Phase 3 – Smart Features and Advanced Analytics
+
+**Module 13 – Nutrition and Meal Tracking**
+- Add meal entries
+- Track calories, protein, carbohydrates and fats
+- View meal history
+- Generate daily nutrition summaries
+
+**Module 14 – Water Intake Tracker**
+- Record water intake in millilitres
+- View water intake history
+- Track daily water consumption against a 2500 ml goal
+
+**Module 15 – AI Workout Suggestions**
+- Generate workout recommendations based on fitness goals and workout history
+- Suggest workout categories and exercises
+
+**Module 16 – Workout Timer and Live Tracking**
+- Start workout sessions
+- Pause and resume sessions
+- Stop workout sessions
+- Track workout duration
+- Estimate calories burned
+- View workout session history
+
+**Module 17 – Third-Party Integration**
+- Support Google Fit and Apple Health provider selections
+- Provide a fitness data synchronization endpoint
+- Save submitted fitness activity data into the FitTrack database
+
+Note: The current implementation uses simulated/manual synchronization. Actual Google Fit and Apple Health API connectivity is not implemented.
+
+**Module 18 – Advanced Analytics Dashboard**
+- Category-wise workout analytics
+- Weekly performance analysis
+- Monthly performance analysis
+- Goal completion tracking
+- Workout consistency analysis
+
+**Module 19 – In-App Reminders and Alerts**
+- Create reminders
+- Categorize workout, meal and water reminders
+- View and update reminders
+- Mark reminders as completed
+- Delete reminders
+
+Note: The current implementation stores and manages reminders through APIs. Push notifications and background scheduling are not implemented.
 
 ## Project Structure
 
 ```text
 FitTrack/
-│
 └── backend/
-    │
     ├── app/
     │   ├── routers/
     │   │   ├── auth.py
@@ -76,8 +129,20 @@ FitTrack/
     │   │   ├── progress.py
     │   │   ├── goals.py
     │   │   ├── reports.py
-    │   │   └── notifications.py
-    │   │
+    │   │   ├── notifications.py
+    │   │   ├── workout_plans.py
+    │   │   ├── exercises.py
+    │   │   ├── dashboard.py
+    │   │   ├── badges.py
+    │   │   ├── meals.py
+    │   │   ├── water.py
+    │   │   ├── recommendations.py
+    │   │   ├── workout_sessions.py
+    │   │   ├── integrations.py
+    │   │   ├── exports.py
+    │   │   ├── analytics.py
+    │   │   ├── reminders.py
+    │   │   └── challenges.py
     │   ├── main.py
     │   ├── models.py
     │   ├── schemas.py
@@ -85,7 +150,6 @@ FitTrack/
     │   ├── security.py
     │   ├── dependencies.py
     │   └── progress_utils.py
-    │
     ├── .env
     ├── .gitignore
     ├── requirements.txt
@@ -161,7 +225,7 @@ After starting the server, open:
 - ReDoc: http://127.0.0.1:8000/redoc
 - Health Check: http://127.0.0.1:8000/health
 
-Use Swagger UI to explore and test the API endpoints.
+Use Swagger UI to explore and test API endpoints.
 
 ## Security Features
 
@@ -171,6 +235,7 @@ Use Swagger UI to explore and test the API endpoints.
 - User-specific data access
 - Environment-based secret configuration
 - Input validation using Pydantic
+- Ownership validation for user data
 
 ## Testing
 
@@ -184,23 +249,29 @@ Testing includes:
 - Progress tracking
 - Fitness goal management
 - Reports and analytics
-- Notification management
-- User data isolation
-- Database persistence after server restart
+- Nutrition and meal tracking
+- Water intake tracking
+- Workout recommendations
+- Workout session management
+- Fitness synchronization endpoint
+- Advanced analytics endpoints
+- Reminder management
 - API health check
 
 ## Future Improvements
 
+- Actual Google Fit and Apple Health API integration
+- Automated push notifications and background reminder scheduling
+- Machine-learning-based workout recommendations
 - Automated unit and integration tests
 - PostgreSQL database integration
 - Database migrations using Alembic
 - Docker deployment
-- Advanced analytics
 - Frontend integration
 
 ## Important Note
 
-FitTrack is a learning and development project. Additional security hardening, automated testing, database migrations, and deployment configuration are recommended before production use.
+FitTrack is a learning and development project focused on backend development. Additional security hardening, automated testing, real third-party integrations, and deployment configuration are recommended before production use.
 
 ## Author
 

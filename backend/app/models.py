@@ -11,8 +11,11 @@ from sqlalchemy import (
     Boolean,
     UniqueConstraint,
     func,
-    Table
+    Table,
+    Float,
+    Text
 )
+
 from sqlalchemy.orm import relationship
 
 from app.database import Base
@@ -66,6 +69,8 @@ class User(Base):
     goals = relationship("Goal", back_populates="user")
     progress_records = relationship("Progress", back_populates="user")
     notifications = relationship("Notification", back_populates="user")
+    meals = relationship("Meal", back_populates="user")
+    water_intakes = relationship("WaterIntake",back_populates="user")
 
     streak = relationship(
         "Streak",
@@ -279,3 +284,157 @@ class Badge(Base):
     )
 
     user = relationship("User", back_populates="badges")
+
+
+# 10. NUTRITION & MEAL TRACKING MODEL
+class Meal(Base):
+    __tablename__ = "meals"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id"),
+        nullable=False
+    )
+
+    meal_type = Column(String(50), nullable=False)
+    food_name = Column(String(150), nullable=False)
+
+    calories = Column(Float, nullable=False)
+    protein = Column(Float, default=0.0, nullable=False)
+    carbs = Column(Float, default=0.0, nullable=False)
+    fats = Column(Float, default=0.0, nullable=False)
+
+    created_at = Column(
+        DateTime,
+        default=datetime.utcnow,
+        nullable=False
+    )
+
+    user = relationship("User", back_populates="meals")
+# 11. WATER INTAKE TRACKER MODEL
+
+class WaterIntake(Base):
+    __tablename__ = "water_intakes"
+
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
+
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id"),
+        nullable=False
+    )
+
+    amount_ml = Column(
+        Integer,
+        nullable=False
+    )
+
+    logged_at = Column(
+        DateTime,
+        default=datetime.utcnow,
+        nullable=False
+    )
+
+    user = relationship(
+        "User",
+        back_populates="water_intakes"
+    )
+
+
+# 12. WORKOUT SESSION MODEL
+
+class WorkoutSession(Base):
+    __tablename__ = "workout_sessions"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id"),
+        nullable=False
+    )
+
+    workout_name = Column(String(150), nullable=False)
+
+    start_time = Column(
+        DateTime,
+        default=datetime.utcnow,
+        nullable=False
+    )
+
+    end_time = Column(DateTime, nullable=True)
+
+    duration_minutes = Column(Integer, nullable=True)
+
+    status = Column(
+        String(30),
+        default="ONGOING",
+        nullable=False
+    )
+
+    paused_at = Column(DateTime, nullable=True)
+
+    total_paused_seconds = Column(
+        Integer,
+        default=0,
+        nullable=False
+    )
+    calories_burned = Column(Float, default=0.0, nullable=False)
+
+    user = relationship("User")
+
+
+# 13. WORKOUT REMINDER MODEL
+
+class Reminder(Base):
+    __tablename__ = "reminders"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    user_id = Column(
+        Integer,
+        ForeignKey("users.id"),
+        nullable=False
+    )
+
+    title = Column(String(150), nullable=False)
+
+    message = Column(String(255), nullable=True)
+
+    reminder_type = Column(String(20),default="WORKOUT",nullable=False)
+
+    remind_at = Column(DateTime, nullable=False)
+
+    is_completed = Column(
+        Boolean,
+        default=False,
+        nullable=False
+    )
+
+    created_at = Column(
+        DateTime,
+        default=datetime.utcnow,
+        nullable=False
+    )
+
+    user = relationship("User")
+class Challenge(Base):
+    __tablename__ = "challenges"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, nullable=False)
+    description = Column(Text)
+    target_workouts = Column(Integer, default=10)
+    duration_days = Column(Integer, default=30)
+    start_date = Column(Date, nullable=False)
+    end_date = Column(Date, nullable=False)
+    created_at = Column(
+        DateTime,
+        default=datetime.utcnow
+    )
